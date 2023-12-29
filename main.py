@@ -35,16 +35,16 @@ if __name__ == "__main__":
             logger.info("Transcribing in english")
 
         result = subprocess.run(["pgrep", "pw-record"],
-                                capture_output=True, encoding="utf-8", check=True)
+                                capture_output=True, encoding="utf-8")
 
         if result.stdout != "":
             subprocess.run(["pkill", "pw-record"],
-                           capture_output=True, check=True)
+                           capture_output=True)
 
         else:
             source_id = None
             result = subprocess.run(
-                ["pactl", "list", "short", "sources"], capture_output=True, encoding="utf-8", check=True)
+                ["pactl", "list", "short", "sources"], capture_output=True, encoding="utf-8")
             sources = result.stdout.split("\n")
             for source in sources:
                 if MIC_SOURCE in source:
@@ -59,23 +59,23 @@ if __name__ == "__main__":
                 logger.info("Microphone source not found, using default")
 
             subprocess.run(["notify-send", "Speech-to-Text",
-                            "Recording..."], check=True)
+                            "Recording..."])
 
-            subprocess.run(record_command, capture_output=True, check=True)
+            subprocess.run(record_command, capture_output=True)
 
             subprocess.run(["notify-send", "Speech-to-Text",
-                            "Transcribing your beautiful voice..."], check=True)
+                            "Transcribing your beautiful voice..."])
 
             text = transcribe_audio_from_file("audio.mp3", is_english)
 
-            subprocess.run(["wl-copy", text], check=True)
+            subprocess.run(["wl-copy", text])
 
             # CTRL + V
             subprocess.run(["ydotool", "key", "97:1", "47:1",
-                           "97:0", "47:0"], check=True)
+                           "97:0", "47:0"])
 
     # pylint: disable=broad-except
     except Exception as e:
         logger.error(e)
         subprocess.run(["notify-send", "--urgency", "critical", "--expire-time", "1000", "Speech-to-Text",
-                        "An error occurred, check the logs"], check=True)
+                        "An error occurred, check the logs"])
