@@ -40,7 +40,17 @@ if __name__ == "__main__":
             logger.info("Found microphone source: " + source_id)
             record_command = ["pw-record", "--target", source_id, "audio.mp3"]
 
+        subprocess.run(["notify-send", "Speech-to-Text",
+                        "Recording..."])
+
         subprocess.run(record_command, capture_output=True)
+
+        subprocess.run(["notify-send", "Speech-to-Text",
+                        "Transcribing your beautiful You voice..."])
+
         text = transcribe_audio_from_file("audio.mp3", is_english)
+
         subprocess.run(["wl-copy", text])
-        subprocess.run(["ydotool", "type", "-d", "0", "-H", "0", text])
+
+        # CTRL + V
+        subprocess.run(["ydotool", "key", "97:1", "47:1", "97:0", "47:0"])
