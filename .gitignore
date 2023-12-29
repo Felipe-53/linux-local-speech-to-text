@@ -1,3 +1,5 @@
 venv
 audio.mp3
 result.txt
+__pycache__
+logs.txt
