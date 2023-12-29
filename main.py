@@ -46,7 +46,7 @@ if __name__ == "__main__":
         subprocess.run(record_command, capture_output=True)
 
         subprocess.run(["notify-send", "Speech-to-Text",
-                        "Transcribing your beautiful You voice..."])
+                        "Transcribing your beautiful voice..."])
 
         text = transcribe_audio_from_file("audio.mp3", is_english)
 
